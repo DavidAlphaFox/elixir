@@ -229,6 +229,7 @@ defmodule Task do
     mfa = {mod, fun, args}
     pid = :proc_lib.spawn_link(Task.Supervised, :async, [self, get_info(self), mfa])
     ref = Process.monitor(pid)
+		# 向目标进程发送自己的PID和监控目标进程的Ref
     send(pid, {self(), ref})
     %Task{pid: pid, ref: ref}
   end

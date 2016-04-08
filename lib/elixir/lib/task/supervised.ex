@@ -68,10 +68,11 @@ defmodule Task.Supervised do
   defp get_initial_call({mod, fun, args}) do
     {mod, fun, length(args)}
   end
-
+	# 在异步进程中执行
   defp do_apply(info, {module, fun, args} = mfa) do
     try do
       apply(module, fun, args)
+			# 捕获所有的异常
     catch
       :error, value ->
         reason = {value, System.stacktrace()}
