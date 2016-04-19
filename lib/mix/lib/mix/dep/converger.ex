@@ -50,6 +50,7 @@ defmodule Mix.Dep.Converger do
 
   defp all(acc, lock, opts, callback) do
     deps = Mix.Dep.Loader.children()
+    # 每个包都增加top_level的标记
     deps = Enum.map(deps, &(%{&1 | top_level: true}))
 
     # Filter the dependencies per environment. We pass the ones

@@ -1,7 +1,7 @@
 defmodule Mix.Hex do
   @moduledoc false
   @hex_requirement  ">= 0.5.0"
-
+  #确保我们已经安装了hex
   @doc """
   Returns `true` if `Hex` is loaded or installed. Otherwise returns `false`.
   """

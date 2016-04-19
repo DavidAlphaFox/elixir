@@ -161,7 +161,7 @@ defmodule Mix do
     {:ok, _} = Application.ensure_all_started(:mix)
     :ok
   end
-
+  # 启动mix
   @doc false
   def start(_type, []) do
     import Supervisor.Spec

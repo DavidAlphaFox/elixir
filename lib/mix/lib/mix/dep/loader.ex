@@ -15,7 +15,7 @@ defmodule Mix.Dep.Loader do
   def children() do
     mix_children([]) ++ Mix.Dep.Umbrella.unloaded
   end
-
+  ## 根据env分割需要的依赖
   @doc """
   Partitions loaded dependencies by environment.
   """
@@ -273,6 +273,8 @@ defmodule Mix.Dep.Loader do
   end
 
   defp mix_children(opts) do
+    ## 得到App的mix文件
+    ## 或缺deps部分
     from = Path.absname("mix.exs")
     (Mix.Project.config[:deps] || [])
     |> Enum.map(&to_dep(&1, from))
