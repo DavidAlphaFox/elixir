@@ -744,6 +744,7 @@ defmodule Module do
     assert_not_compiled!(:make_overridable, module)
 
     :lists.foreach(fn tuple ->
+      ## 先检查是否已经有定义了
       case :elixir_def.lookup_definition(module, tuple) do
         false ->
           {name, arity} = tuple
@@ -756,7 +757,7 @@ defmodule Module do
           else
             Module.LocalsTracker.yank(module, tuple)
           end
-
+          ## 添加相应的tuple去完成重写
           old    = :elixir_def_overridable.overridable(module)
           merged = :orddict.update(tuple, fn({count, _, _, _}) ->
             {count + 1, clause, neighbours, false}

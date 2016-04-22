@@ -4,7 +4,7 @@
          ensure_defined/4, format_error/1]).
 -include("elixir.hrl").
 -define(attr, {elixir, overridable}).
-
+%% 处理函数重写
 setup(Module) ->
   overridable(Module, []).
 

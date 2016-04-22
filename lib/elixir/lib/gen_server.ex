@@ -443,7 +443,8 @@ defmodule GenServer do
       def code_change(_old, state, _extra) do
         {:ok, state}
       end
-
+      # 子模块可以重新定义相应函数
+      # 并可以使用super来调用默认实现
       defoverridable [init: 1, handle_call: 3, handle_info: 2,
                       handle_cast: 2, terminate: 2, code_change: 3]
     end

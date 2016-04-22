@@ -2,7 +2,7 @@
 -export([expand_map/3, translate_map/3, expand_struct/4, translate_struct/4]).
 -import(elixir_errors, [compile_error/4]).
 -include("elixir.hrl").
-
+%% 对MAP的操作
 expand_map(Meta, [{'|', UpdateMeta, [Left, Right]}], E) ->
   {[ELeft|ERight], EA} = elixir_exp:expand_args([Left|Right], E),
   validate_kv(Meta, ERight, Right, E),
