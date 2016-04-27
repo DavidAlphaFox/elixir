@@ -1,5 +1,6 @@
 %% Translate Elixir quoted expressions to Erlang Abstract Format.
 %% Expects the tree to be expanded.
+%% 将Elixir的语法翻译成Erlang的抽象语法形式
 -module(elixir_translator).
 -export([translate/2, translate_arg/3, translate_args/2]).
 -import(elixir_scope, [mergev/2, mergec/2]).

@@ -17,7 +17,7 @@
 %% OTP Application API
 
 -export([start/2, stop/1, config_change/3]).
-
+%% Elixir作为Erlang的OTP启动
 start(_Type, _Args) ->
   %% In case there is a shell, we can't really change its
   %% encoding, so we just set binary to true. Otherwise

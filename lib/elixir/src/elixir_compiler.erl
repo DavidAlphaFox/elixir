@@ -17,6 +17,7 @@ get_opt(Key) ->
 string(Contents, File) when is_list(Contents), is_binary(File) ->
   string(Contents, File, nil).
 string(Contents, File, Dest) ->
+  %% 进行语法解析，并生成语法树
   Forms = elixir:'string_to_quoted!'(Contents, 1, File, []),
   quoted(Forms, File, Dest).
 
@@ -41,7 +42,10 @@ file(Relative) when is_binary(Relative) ->
   file(Relative, nil).
 file(Relative, Dest) ->
   File = filename:absname(Relative),
+  %% 读取文件
   {ok, Bin} = file:read_file(File),
+  %% 将Binary转化成字符串
+  %% 然后使用String，进行处理
   string(elixir_utils:characters_to_list(Bin), File, case Dest of
     nil -> Dest;
     _   -> filename:absname(Dest)
@@ -54,7 +58,7 @@ file_to_path(File, Dest) when is_binary(File), is_binary(Dest) ->
   Comp.
 
 %% Evaluation
-
+%% 对语法树进行eval
 eval_forms(Forms, Vars, E) ->
   case (?m(E, module) == nil) andalso allows_fast_compilation(Forms) of
     true  -> eval_compilation(Forms, Vars, E);
@@ -204,7 +208,7 @@ no_auto_import() ->
   {attribute, 0, compile, no_auto_import}.
 
 %% CORE HANDLING
-
+%% Elixir的核心库文件
 core() ->
   {ok, _} = application:ensure_all_started(elixir),
   New = orddict:from_list([{docs, false}, {internal, true}]),

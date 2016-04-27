@@ -373,7 +373,7 @@ defmodule Kernel.CLI do
       {:error, "-pr : No files matched pattern #{pattern}"}
     end
   end
-
+  # 进行编译
   defp process_command({:compile, patterns}, config) do
     # If ensuring the dir returns an error no files will be found.
     _ = :filelib.ensure_dir(:filename.join(config.output, "."))

@@ -45,7 +45,8 @@ defmodule Kernel.ParallelCompiler do
   def files_to_path(files, path, options) when is_binary(path) and is_list(options) do
     spawn_compilers(files, path, options)
   end
-
+## 启动编译器
+## 并行的进行编译
   defp spawn_compilers(files, path, options) do
     true = Code.ensure_loaded?(Kernel.ErrorHandler)
     compiler_pid = self()

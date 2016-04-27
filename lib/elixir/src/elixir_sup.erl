@@ -4,7 +4,7 @@
 
 start_link() ->
   supervisor:start_link({local, ?MODULE}, ?MODULE, ok).
-
+%% 启动配置管理，代码服务器
 init(ok) ->
   Workers = [
     {
