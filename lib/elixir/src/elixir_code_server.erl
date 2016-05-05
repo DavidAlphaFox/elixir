@@ -28,11 +28,12 @@ init(ok) ->
   %% the codebase we can avoid code:is_loaded/1 checks.
   _ = code:ensure_loaded('Elixir.Macro.Env'),
 
+  %% 创建elixir_modules,用来保存
   %% The table where we store module definitions
   _ = ets:new(elixir_modules, [set, protected, named_table, {read_concurrency, true}]),
 
   {ok, #elixir_code_server{}}.
-
+%% 收到defmodule消息
 handle_call({defmodule, Pid, Tuple}, _From, Config) ->
   {Ref, New} = defmodule(Pid, Tuple, Config),
   {reply, Ref, New};
@@ -127,7 +128,8 @@ code_change(_Old, Config, _Extra) ->
 
 module_tuple(I) ->
   {list_to_atom("elixir_compiler_" ++ integer_to_list(I)), I}.
-
+%% 当我们定义一个module的时候
+%% 就会向elixir_modules插入一条数据
 defmodule(Pid, Tuple, #elixir_code_server{mod_ets=ModEts} = Config) ->
   ets:insert(elixir_modules, Tuple),
   Ref = erlang:monitor(process, Pid),

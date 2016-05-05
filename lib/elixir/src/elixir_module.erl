@@ -135,6 +135,7 @@ build(Line, File, Module, Docs, Lexical) ->
   Defs = ets:new(Module, [set, public]),
   Clas = ets:new(Module, [bag, public]),
 
+  %% build的时候通知code_server来保存生成的ets表
   Ref = elixir_code_server:call({defmodule, self(),
                                  {Module, Data, Defs, Clas, Line, File}}),
 
