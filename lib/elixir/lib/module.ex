@@ -968,6 +968,8 @@ defmodule Module do
     :ets.insert(table, {key, new})
   end
 
+  # 该函数只会在Elixir的编译期间可用
+  # 剩下的时间是不可以用的，所以不用担心ETS的问题
   @doc false
   def get_attribute(module, key, warn) when is_atom(key) and (is_list(warn) or is_nil(warn)) do
     assert_not_compiled!(:get_attribute, module)

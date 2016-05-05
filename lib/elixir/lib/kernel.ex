@@ -3,6 +3,8 @@
 # functions removed, simple enough to bootstrap.
 import Kernel, except: [@: 1, defmodule: 2, def: 1, def: 2, defp: 2,
                         defmacro: 1, defmacro: 2, defmacrop: 2]
+# 这些被排除的函数都是在elixir_bootstrap 
+# 中进行定义的                  
 import :elixir_bootstrap
 
 defmodule Kernel do
