@@ -568,6 +568,7 @@ defmodule Protocol do
 
   @doc false
   def __derive__(derives, for, %Macro.Env{} = env) when is_atom(for) do
+    ## 得到Module的struct定义
     struct =
       if for == env.module do
         Module.get_attribute(for, :struct) ||

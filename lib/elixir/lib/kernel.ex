@@ -3190,14 +3190,15 @@ defmodule Kernel do
   """
   defmacro defstruct(fields) do
     quote bind_quoted: [fields: fields] do
+      # 新的fields是一个Erlang的map
       fields = Kernel.Def.struct(__MODULE__, fields)
       @struct fields
-
+      # 为模块增加默认的协议实现
       case Module.get_attribute(__MODULE__, :derive) do
         [] -> :ok
         derive -> Protocol.__derive__(derive, __MODULE__, __ENV__)
       end
-
+      ## 添加 __struct__ 函数定义
       def __struct__() do
         @struct
       end
