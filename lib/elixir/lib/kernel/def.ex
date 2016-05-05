@@ -48,7 +48,8 @@ defmodule Kernel.Def do
       other ->
         raise ArgumentError, "struct field names must be atoms, got: #{inspect other}"
     end, fields)
-
+    ## Elixir的struct是Erlang的Map
+    ## 其中有一个特殊的key是:__struct__
     :maps.put(:__struct__, module, :maps.from_list(fields))
   end
 end
