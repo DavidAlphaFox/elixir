@@ -7,6 +7,7 @@
 -define(kernel, 'Elixir.Kernel').
 
 %% Mock out @ to be a no-op unless Kernel is defined.
+%% 在Elixir.Kernel加载之前，@是没有任何含义的
 'MACRO-@'(Caller, Tree) ->
   unless_loaded('MACRO-@', [Caller, Tree], fun() -> nil end).
 
