@@ -1,7 +1,8 @@
 -module(elixir_try).
 -export([clauses/3]).
 -include("elixir.hrl").
-
+%% Elixir的try语句中
+%% catch 和 rescue是并存的
 clauses(_Meta, Clauses, S) ->
   Catch  = elixir_clauses:get_pairs('catch', Clauses, 'catch'),
   Rescue = elixir_clauses:get_pairs(rescue, Clauses, rescue),
@@ -15,7 +16,7 @@ reduce_clauses([], Acc, SAcc, _S) ->
 
 each_clause({'catch', Meta, Raw, Expr}, S) ->
   {Args, Guards} = elixir_clauses:extract_splat_guards(Raw),
-
+  %% 生成异常条件的语句
   Final = case Args of
     [X]   -> [throw, X, {'_', Meta, nil}];
     [X, Y] -> [X, Y, {'_', Meta, nil}]

@@ -30,7 +30,7 @@ match(Fun, Args, #elixir_scope{context=Context, match_vars=MatchVars,
 match(Fun, Args, S) -> Fun(Args, S).
 
 %% Translate clauses with args, guards and expressions
-
+%% 生成语句
 clause(Line, Fun, Args, Expr, Guards, S) when is_integer(Line) ->
   {TArgs, SA} = match(Fun, Args, S#elixir_scope{extra_guards=[]}),
   {TExpr, SE} = elixir_translator:translate(Expr, SA#elixir_scope{extra_guards=nil}),
@@ -59,7 +59,7 @@ extract_or_guards({'when', _, [Left, Right]}) -> [Left|extract_or_guards(Right)]
 extract_or_guards(Term) -> [Term].
 
 % Extract guards when multiple left side args are allowed.
-
+%% 取哨位条件
 extract_splat_guards([{'when', _, [_, _|_] = Args}]) ->
   {Left, Right} = elixir_utils:split_last(Args),
   {Left, extract_or_guards(Right)};
