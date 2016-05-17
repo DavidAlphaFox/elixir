@@ -1319,6 +1319,7 @@ defmodule Kernel do
       end
 
   """
+  ## Raise  实际上是一个宏
   defmacro raise(msg) do
     # Try to figure out the type at compilation time
     # to avoid dead code and make Dialyzer happy.
