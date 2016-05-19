@@ -40,14 +40,15 @@ expand({'__block__', Meta, Args}, E) when is_list(Args) ->
   {{'__block__', Meta, EArgs}, EA};
 
 %% __aliases__
-
+%% 展开别名 主要是函数
 expand({'__aliases__', _, _} = Alias, E) ->
   expand_aliases(Alias, E, true);
 
 %% alias
-
+%% alias没有as 参数
 expand({alias, Meta, [Ref]}, E) ->
   expand({alias, Meta, [Ref, []]}, E);
+%% alias 带有as 参数
 expand({alias, Meta, [Ref, KV]}, E) ->
   assert_no_match_or_guard_scope(Meta, alias, E),
   {ERef, ER} = expand_without_aliases_report(Ref, E),
@@ -113,6 +114,7 @@ expand({'__CALLER__', _, Atom} = Caller, E) when is_atom(Atom) ->
 expand({'__ENV__', Meta, Atom}, E) when is_atom(Atom) ->
   Env = elixir_env:linify({?line(Meta), E}),
   {{'%{}', [], maps:to_list(Env)}, E};
+%% 函数调用  
 expand({{'.', DotMeta, [{'__ENV__', Meta, Atom}, Field]}, CallMeta, []}, E) when is_atom(Atom), is_atom(Field) ->
   Env = elixir_env:linify({?line(Meta), E}),
   case maps:is_key(Field, Env) of
@@ -290,7 +292,7 @@ expand({Name, Meta, Kind} = Var, #{vars := Vars} = E) when is_atom(Name), is_ato
   end;
 
 %% Local calls
-
+%% 模块内嗲用
 expand({Atom, Meta, Args}, E) when is_atom(Atom), is_list(Meta), is_list(Args) ->
   assert_no_ambiguous_op(Atom, Meta, Args, E),
 
@@ -299,7 +301,7 @@ expand({Atom, Meta, Args}, E) when is_atom(Atom), is_list(Meta), is_list(Args) -
   end);
 
 %% Remote calls
-
+%% 模块间调用
 expand({{'.', DotMeta, [Left, Right]}, Meta, Args}, E)
     when (is_tuple(Left) orelse is_atom(Left)), is_atom(Right), is_list(Meta), is_list(Args) ->
   {ELeft, EL} = expand(Left, E),
@@ -309,7 +311,7 @@ expand({{'.', DotMeta, [Left, Right]}, Meta, Args}, E)
   end);
 
 %% Anonymous calls
-
+%% 匿名函数
 expand({{'.', DotMeta, [Expr]}, Meta, Args}, E) when is_list(Args) ->
   {EExpr, EE} = expand(Expr, E),
   if

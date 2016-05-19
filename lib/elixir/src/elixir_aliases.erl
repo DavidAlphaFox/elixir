@@ -48,17 +48,20 @@ expand({'__aliases__', Meta, _} = Alias, Aliases, MacroAliases, LexicalTracker) 
     {alias, false} ->
       expand(Alias, MacroAliases, LexicalTracker);
     {alias, Atom} when is_atom(Atom) ->
+    %% 如果有别名，直接返回模块原来的名字
       Atom;
     false ->
       expand(Alias, Aliases, LexicalTracker)
   end.
 
 expand({'__aliases__', Meta, [H|T]}, Aliases, LexicalTracker) when is_atom(H) ->
+  %% 组成相应的模块
   Lookup  = list_to_atom("Elixir." ++ atom_to_list(H)),
   Counter = case lists:keyfind(counter, 1, Meta) of
     {counter, C} -> C;
     _ -> nil
   end,
+  %% 找出模块真正的名字
   case lookup(Lookup, Aliases, Counter) of
     Lookup -> [H|T];
     Atom ->
