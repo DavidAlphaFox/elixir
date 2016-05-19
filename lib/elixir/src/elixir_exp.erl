@@ -292,7 +292,7 @@ expand({Name, Meta, Kind} = Var, #{vars := Vars} = E) when is_atom(Name), is_ato
   end;
 
 %% Local calls
-%% 模块内嗲用
+%% 模块内调用
 expand({Atom, Meta, Args}, E) when is_atom(Atom), is_list(Meta), is_list(Args) ->
   assert_no_ambiguous_op(Atom, Meta, Args, E),
 
