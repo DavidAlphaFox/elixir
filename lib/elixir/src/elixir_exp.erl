@@ -163,6 +163,7 @@ expand({quote, Meta, [KV, Do]}, E) when is_list(Do) ->
 
   {File, Line} = case lists:keyfind(location, 1, EKV) of
     {location, keep} ->
+      %% 得到文件路径
       {elixir_utils:relative_to_cwd(?m(E, file)), false};
     false ->
       { case lists:keyfind(file, 1, EKV) of
